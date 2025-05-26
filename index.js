@@ -16,3 +16,7 @@ app.listen(port, () => {
     console.log(`EVA is listening at http://localhost:${port}`);
 });
 
+app.get('/', (req, res) => {
+  res.send('EVA API is working!');
+});
+
