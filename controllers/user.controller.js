@@ -1,13 +1,13 @@
 import { verificarLogin } from '../services/user.service.js';
 
 export const login = async (req, res) => {
-  const { email, contra } = req.body;
+  const { email, contra, usuario } = req.body;
 
   if (!email || !contra) {
     return res.status(400).json({ error: "Faltan campos." });
   }
 
-  const valido = await verificarLogin(email, contra);
+  const valido = await verificarLogin(email, contra, usuario);
 
   if (valido) {
     res.json({ mensaje: "Login exitoso ✅" });
