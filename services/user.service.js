@@ -1,8 +1,8 @@
 import db from '../db.js';
 
-export const verificarLogin = async (email, contra, usuario) => {
+export const verificarLogin = async (email, contra) => {
   const result = await db.query(
-    'SELECT * FROM "User" WHERE email = $1 AND contra = $2 AND usuario = $3' ,
+    'SELECT * FROM "User" WHERE email = $1 AND contra = $2  ' ,
     [email, contra, usuario]
   );
 
