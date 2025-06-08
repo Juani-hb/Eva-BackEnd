@@ -6,3 +6,5 @@ const router = express.Router();
 router.post('/login', login);
 
 export default router;
+
+import { registro } from '../controllers/userController.js';
