@@ -7,5 +7,9 @@ router.post('/login', login);
 
 export default router;
 
+import { registro } from '../controllers/userController.js';
 
+
+
+router.post('/registro', registro);
 
