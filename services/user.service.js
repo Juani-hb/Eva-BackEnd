@@ -15,7 +15,7 @@ export const registrarUsuario = async (email, contra, usuario) => {
     [email, contra, usuario]
   );
 
-  return result.rows[0]; // Devuelve el nuevo usuario creado
+  return result.rows[0]; 
 };
 
 
