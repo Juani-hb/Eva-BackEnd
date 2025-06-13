@@ -1,19 +1,9 @@
-const videoFile = req.file.path;
-
-const extension = videoFile.split('.').pop();
-const extensionesPermitidas = ['pdf', 'png', 'jpeg', 'jpg', 'MP'];
-
-if (!extensionesPermitidas.includes(extension)) {
-    console.error('Extensión de archivo no permitida');
-    return res.status(400).send('Error: Extensión de archivo no permitida. Extensiones admitidas: PDF, PNG, JPEG, JPG y MP4');
-}
-
 import fs from "fs";
 import cloudinary from "../config/cloudinary.js";
 import videoService from "../services/video.service.js";
 
- const subirVideo = async (req, res) => {
-  const id_usuario = req.userId; // viene del token
+const subirVideo = async (req, res) => {
+  const id_usuario = req.userId;
   const archivo = req.file?.path;
   const horainicio = req.body.horainicio;
   const horafinal = req.body.horafinal;
@@ -53,12 +43,12 @@ import videoService from "../services/video.service.js";
 
   } catch (error) {
     console.error("Error al subir video:", error);
-    res.status(500).json({ error: "Error al subir video o guardar en base de datos." });
+    res.status(500).json({ error: error.message });
   }
 };
 
 const video = {
-    subirVideo
-}
+  subirVideo
+};
 
-export default video; 
+export default video;
