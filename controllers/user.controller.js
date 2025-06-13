@@ -50,3 +50,20 @@ export const obtenerUsuarios = async (req, res) => {
     res.status(500).json({ error: "Error al obtener usuarios." });
   }
 };
+
+export const eliminarUsuario = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const result = await db.query('DELETE FROM "User" WHERE id = $1', [id]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ mensaje: 'Usuario no encontrado.' });
+    }
+
+    res.json({ mensaje: 'Usuario eliminado correctamente ✅' });
+  } catch (error) {
+    console.error('Error al eliminar usuario:', error);
+    res.status(500).json({ error: 'Error al eliminar usuario.' });
+  }
+};
