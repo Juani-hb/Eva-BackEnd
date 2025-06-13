@@ -38,3 +38,9 @@ const upload = multer({
 });
 
 router.post("/video", verifyToken, upload.single('file'), videoController.subirVideo);
+
+const router = Router();
+
+router.post("/", verifyToken, upload.single('file'), videoController.subirVideo);
+
+export default router;

@@ -1,8 +1,8 @@
 import db from "../db.js"
 
-export const guardarvideo = async (id_usuario, ruta, horainicio, horafinal) => {
+export const postVideo = async (id_usuario, ruta, horainicio, horafinal) => {
     try {
-        const result = await client.query(`
+        const result = await db.query(`
             INSERT INTO video (id_usuario, ruta, horainicio, horafinal) VALUES ($1, $2, $3, $4)`, [id_usuario, ruta, horainicio, horafinal]);
         return result;
 
