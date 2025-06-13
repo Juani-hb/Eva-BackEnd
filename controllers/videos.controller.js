@@ -8,6 +8,7 @@ const subirVideo = async (req, res) => {
   const horainicio = req.body.horainicio;
   const horafinal = req.body.horafinal;
 
+  console.log(id_usuario, archivo, horainicio, horafinal);
   if (!id_usuario || !archivo || !horainicio || !horafinal) {
     return res.status(400).json({ message: "Faltan campos: usuario, archivo o horas." });
   }

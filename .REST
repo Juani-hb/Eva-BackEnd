@@ -1,0 +1,21 @@
+###LOGIN 
+POST http://localhost:3000/user/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "pesce@gmail",
+    "contra": "abcd"
+}
+
+###VIDEO 
+POST http://localhost:3000/video HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQ5ODE0OTE5LCJleHAiOjE3NDk4MTY3MTl9.pvB-vi4Zd3wCSRSjF-KF9s57Zi7gg4Sczlh6FTFc17w
+
+{
+
+    "archivo": "C:\\Users\\juani\\Downloads\\videos-cortos----10-segundos.mp4",
+    "horainicio": "2025-06-12T12:00:00",
+    "horafinal": "2025-06-12T12:01:00"
+
+}
+
