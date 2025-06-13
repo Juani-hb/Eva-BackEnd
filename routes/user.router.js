@@ -8,7 +8,7 @@ router.post('/registro', registro);
 router.get('/usuarios', obtenerUsuarios); // ✅ GET agregado
 router.delete('/eliminar/:id', eliminarUsuario); // ✅ DELETE agregado
 
-export default router;
+export default router;  
 
 
 

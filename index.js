@@ -22,3 +22,8 @@ app.get('/', (req, res) => {
   res.send('EVA API is working!');
 });
 
+// ⚠️ Este middleware va después de todas las rutas (¡dejalo al final de index.js!)
+app.use((err, req, res, next) => {
+  console.error("💥 Error no manejado:", err.stack || err);
+  res.status(500).json({ error: "Error interno del servidor." });
+});
