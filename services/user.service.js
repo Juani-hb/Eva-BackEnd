@@ -6,7 +6,7 @@ export const verificarLogin = async (email, contra) => {
     [email, contra]
   );
 
-  return result.rows.length > 0;
+  return result.rows[0]; // 👈 devuelve el usuario si existe
 };
 
 export const registrarUsuario = async (email, contra, usuario) => {
@@ -15,7 +15,6 @@ export const registrarUsuario = async (email, contra, usuario) => {
     [email, contra, usuario]
   );
 
-  return result.rows[0]; 
+  return result.rows[0];
 };
-
 

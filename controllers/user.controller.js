@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import { verificarLogin, registrarUsuario } from '../services/user.service.js';
 
 export const login = async (req, res) => {
@@ -7,17 +8,18 @@ export const login = async (req, res) => {
     return res.status(400).json({ error: "Faltan campos." });
   }
 
-  const valido = await verificarLogin(email, contra);
+  const usuario = await verificarLogin(email, contra);
 
-  if (valido) {
-    
-    const token = await jwt.sign({ id: medicoExistente.id_medico }, "secret", { expiresIn: "30m" });
-    res.json({ mensaje: "Login exitoso ✅", token });
+  if (usuario) {
+    const token = jwt.sign({ id: usuario.id }, "secret", { expiresIn: "30m" }); // ✅ ahora sí anda
 
+    res.json({
+      mensaje: "Login exitoso ✅",
+      token
+    });
   } else {
     res.status(401).json({ error: "Credenciales inválidas" });
   }
-  
 };
 
 export const registro = async (req, res) => {
@@ -35,4 +37,3 @@ export const registro = async (req, res) => {
     res.status(500).json({ error: "Error al registrar usuario." });
   }
 };
-
