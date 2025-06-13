@@ -1,6 +1,6 @@
 import fs from "fs";
 import cloudinary from "../config/cloudinary.js";
-import videoService from "../services/video.service.js";
+import videoService from "../services/videos.services.js";
 
 const subirVideo = async (req, res) => {
   const id_usuario = req.userId;
