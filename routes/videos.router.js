@@ -1,45 +1,42 @@
-import multer from 'multer';
-import videoController  from "../controllers/videos.controller.js";
-import { verifyToken } from "../middlewares/auth.middlewares.js";
 import { Router } from "express";
+import multer from 'multer';
+import { subirVideo } from "../controllers/videos.controller.js";
+import { verifyToken } from "../middlewares/auth.middlewares.js";
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+
+const router = Router(); // 👈 Esto va arriba de cualquier uso de `router`
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Poner la ubicacion de la carpeta de Uploads correspondiente, en este caso se ubica dentro del SRC
+// Carpeta donde se guardan temporalmente los archivos antes de subirlos a Cloudinary
 const uploadDir = join(__dirname, "../uploads");
 
-// Se define donde se va a ubicar el archivo que vamos a subir y el nombre, este se puede modificar, en este caso el nombre que se le va a asignar es la fecha de subida sumado del nombre del archivo original
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, uploadDir);
-    },
-    filename: function (req, file, cb) {
-        cb(null, `${Date.now()}-${file.originalname}`)
-    }
+  destination: function (req, file, cb) {
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
 });
 
-// El siguiente filtro es para que se suban unicamente archivos con extensiones especificas. En este caso serian JPEG, PNG y JPG
 const fileFilter = (req, file, cb) => {
-    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'video/mp4'];
-    if (allowedTypes.includes(file.mimetype)) {
-        cb(null, true);
-    } else {
-        cb(new Error('Invalid file type. Only PDF, PNG, JPEG, JPG and MP4 files are allowed.'), false);
-    }
+  const allowedTypes = ['video/mp4', 'video/avi', 'video/mov', 'video/mkv'];
+  if (allowedTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Tipo de archivo no permitido. Solo se aceptan mp4, avi, mov, mkv'), false);
+  }
 };
 
 const upload = multer({
-    storage: storage,
-    fileFilter: fileFilter
+  storage: storage,
+  fileFilter: fileFilter
 });
 
-router.post("/video", verifyToken, upload.single('file'), videoController.subirVideo);
-
-const router = Router();
-
-router.post("/", verifyToken, upload.single('file'), videoController.subirVideo);
+// Ruta para subir video
+router.post("/", verifyToken, upload.single('file'), subirVideo);
 
 export default router;
