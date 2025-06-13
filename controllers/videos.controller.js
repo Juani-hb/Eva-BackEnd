@@ -1,6 +1,6 @@
 import fs from "fs";
 import cloudinary from "../config/cloudinary.js";
-import videoService from "../services/videos.services.js";
+import { postVideo } from "../services/videos.services.js";
 
 const subirVideo = async (req, res) => {
   const id_usuario = req.userId;
@@ -28,7 +28,7 @@ const subirVideo = async (req, res) => {
 
     const ruta = result.secure_url;
 
-    const guardado = await videoService.postVideo(id_usuario, ruta, horainicio, horafinal);
+    const guardado = await postVideo(id_usuario, ruta, horainicio, horafinal);
 
     fs.unlinkSync(archivo);
 
@@ -47,8 +47,4 @@ const subirVideo = async (req, res) => {
   }
 };
 
-const video = {
-  subirVideo
-};
-
-export default video;
+export { subirVideo };
