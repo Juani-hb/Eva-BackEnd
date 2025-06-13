@@ -11,8 +11,8 @@ export const login = async (req, res) => {
   const usuario = await verificarLogin(email, contra);
 
   if (usuario) {
-    const token = jwt.sign({ id: usuario.id_usuario }, "secret", { expiresIn: "30m" });
-
+    console.log(id_usuario, id);
+    const token = jwt.sign({ id: usuario.id}, "secret", { expiresIn: "30m" });
 
     res.json({
       mensaje: "Login exitoso ✅",
