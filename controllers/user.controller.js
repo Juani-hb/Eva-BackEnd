@@ -16,7 +16,7 @@ export const login = async (req, res) => {
     const token = jwt.sign({ id: usuario.id }, "secret", { expiresIn: "30m" });
 
     res.json({
-      mensaje: "Login exitoso ✅",
+      mensaje: "Login exitoso ",
       token
     });
   } else {
@@ -33,7 +33,7 @@ export const registro = async (req, res) => {
 
   try {
     const nuevoUsuario = await registrarUsuario(email, contra, usuario);
-    res.status(201).json({ mensaje: "Usuario creado ✅", usuario: nuevoUsuario });
+    res.status(201).json({ mensaje: "Usuario creado ", usuario: nuevoUsuario });
   } catch (err) {
     console.error("Error al registrar:", err);
     res.status(500).json({ error: "Error al registrar usuario." });
@@ -61,7 +61,7 @@ export const eliminarUsuario = async (req, res) => {
       return res.status(404).json({ mensaje: 'Usuario no encontrado.' });
     }
 
-    res.json({ mensaje: 'Usuario eliminado correctamente ✅' });
+    res.json({ mensaje: 'Usuario eliminado correctamente ' });
   } catch (error) {
     console.error('Error al eliminar usuario:', error);
     res.status(500).json({ error: 'Error al eliminar usuario.' });

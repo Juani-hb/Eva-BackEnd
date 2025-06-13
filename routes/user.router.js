@@ -5,8 +5,8 @@ const router = express.Router();
 
 router.post('/login', login);
 router.post('/registro', registro);
-router.get('/usuarios', obtenerUsuarios); // ✅ GET agregado
-router.delete('/eliminar/:id', eliminarUsuario); // ✅ DELETE agregado
+router.get('/usuarios', obtenerUsuarios);
+router.delete('/eliminar/:id', eliminarUsuario); 
 
 export default router;  
 

@@ -7,11 +7,11 @@ import { dirname, join } from 'path';
 
 const router = Router(); 
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const files = fileURLToPath(import.meta.url);
+const videos = dirname(files);
 
 
-const uploadDir = join(__dirname, "../uploads");
+const uploadDir = join(videos, "../videos");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

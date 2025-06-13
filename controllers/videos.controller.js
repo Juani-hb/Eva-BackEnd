@@ -4,7 +4,7 @@ import { postVideo } from "../services/videos.services.js";
 
 const subirVideo = async (req, res) => {
   const id_usuario = req.userId;
-  const archivo = req.file?.path;
+  const archivo = req.file.path;
   const horainicio = req.body.horainicio;
   const horafinal = req.body.horafinal;
 
@@ -38,7 +38,7 @@ const subirVideo = async (req, res) => {
     }
 
     res.status(201).json({
-      mensaje: "Video subido y guardado correctamente 🎥",
+      mensaje: "Video subido y guardado correctamente ",
       ruta: ruta
     });
 
