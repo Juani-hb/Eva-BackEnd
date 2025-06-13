@@ -1,4 +1,10 @@
 import multer from 'multer';
+import videoController  from "../controllers/videos.controller.js";
+import { verifyToken } from "../middlewares/auth.middlewares.js";
+import { Router } from "express";
+import multer from 'multer';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -31,4 +37,4 @@ const upload = multer({
     fileFilter: fileFilter
 });
 
-router.post("/registerUsers", upload.single('file'), registerController.registerUsers);
+router.post("/video", verifyToken, upload.single('file'), videoController.subirVideo);

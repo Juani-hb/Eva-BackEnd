@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import MedicoService from "../services/medico.service.js";
 
 export const verifyToken = async (req, res, next) => {
 
@@ -26,4 +25,5 @@ export const verifyToken = async (req, res, next) => {
     }
 
 };
+
 

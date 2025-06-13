@@ -1,9 +1,64 @@
 const videoFile = req.file.path;
 
-const extension = videoFileFile.split('.').pop();
+const extension = videoFile.split('.').pop();
 const extensionesPermitidas = ['pdf', 'png', 'jpeg', 'jpg', 'MP'];
 
 if (!extensionesPermitidas.includes(extension)) {
     console.error('Extensión de archivo no permitida');
     return res.status(400).send('Error: Extensión de archivo no permitida. Extensiones admitidas: PDF, PNG, JPEG, JPG y MP4');
 }
+
+import fs from "fs";
+import cloudinary from "../config/cloudinary.js";
+import videoService from "../services/video.service.js";
+
+ const subirVideo = async (req, res) => {
+  const id_usuario = req.userId; // viene del token
+  const archivo = req.file?.path;
+  const horainicio = req.body.horainicio;
+  const horafinal = req.body.horafinal;
+
+  if (!id_usuario || !archivo || !horainicio || !horafinal) {
+    return res.status(400).json({ message: "Faltan campos: usuario, archivo o horas." });
+  }
+
+  const extension = archivo.split('.').pop().toLowerCase();
+  const extensionesPermitidas = ['mp4', 'avi', 'mov', 'mkv'];
+
+  if (!extensionesPermitidas.includes(extension)) {
+    fs.unlinkSync(archivo);
+    return res.status(400).json({ error: "Solo se permiten videos (mp4, avi, mov, mkv)." });
+  }
+
+  try {
+    const result = await cloudinary.uploader.upload(archivo, {
+      resource_type: 'video',
+      folder: 'videos'
+    });
+
+    const ruta = result.secure_url;
+
+    const guardado = await videoService.postVideo(id_usuario, ruta, horainicio, horafinal);
+
+    fs.unlinkSync(archivo);
+
+    if (!guardado) {
+      return res.status(500).json({ error: "Error al guardar en la base de datos." });
+    }
+
+    res.status(201).json({
+      mensaje: "Video subido y guardado correctamente 🎥",
+      ruta: ruta
+    });
+
+  } catch (error) {
+    console.error("Error al subir video:", error);
+    res.status(500).json({ error: "Error al subir video o guardar en base de datos." });
+  }
+};
+
+const video = {
+    subirVideo
+}
+
+export default video; 

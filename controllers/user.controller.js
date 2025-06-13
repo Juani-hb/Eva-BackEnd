@@ -10,10 +10,14 @@ export const login = async (req, res) => {
   const valido = await verificarLogin(email, contra);
 
   if (valido) {
-    res.json({ mensaje: "Login exitoso ✅" });
+    
+    const token = await jwt.sign({ id: medicoExistente.id_medico }, "secret", { expiresIn: "30m" });
+    res.json({ mensaje: "Login exitoso ✅", token });
+
   } else {
     res.status(401).json({ error: "Credenciales inválidas" });
   }
+  
 };
 
 export const registro = async (req, res) => {
