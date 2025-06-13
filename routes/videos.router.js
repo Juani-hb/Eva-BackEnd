@@ -5,12 +5,12 @@ import { verifyToken } from "../middlewares/auth.middlewares.js";
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
-const router = Router(); // 👈 Esto va arriba de cualquier uso de `router`
+const router = Router(); 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Carpeta donde se guardan temporalmente los archivos antes de subirlos a Cloudinary
+
 const uploadDir = join(__dirname, "../uploads");
 
 const storage = multer.diskStorage({

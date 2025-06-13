@@ -16,7 +16,7 @@ export const verifyToken = async (req, res, next) => {
         if (!payload.id) 
             return res.status(400).json({ message: "El token no contiene un ID de usuario."});
     
-        req.id = parseInt(payload.id);
+        req.userId = parseInt(payload.id);
 
         next();
 
