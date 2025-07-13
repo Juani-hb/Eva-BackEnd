@@ -1,8 +1,11 @@
 import fs from "fs";
-import cloudinary from "../config/cloudinary.js";
+import cloudinary from "../upload.js";
 import { postVideo } from "../services/videos.services.js";
 
 const subirVideo = async (req, res) => {
+    
+    console.log(req);
+
   const id_usuario = req.userId;
   const archivo = req.file.path;
   const horainicio = req.body.horainicio;
