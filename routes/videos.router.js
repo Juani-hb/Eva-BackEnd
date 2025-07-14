@@ -10,9 +10,9 @@ const router = Router();
 const files = fileURLToPath(import.meta.url);
 const videos = dirname(files);
 
-console.log('Inicializando router de videos');
+console.log('Iniciando router de videos');
 
-const uploadDir = join(videos, "../videos");
+const uploadDir = join(videos, "../upload.js");
 console.log('Ruta para guardar archivos: ' + uploadDir);
 
 const storage = multer.diskStorage({
