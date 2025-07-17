@@ -1,6 +1,6 @@
 import { Router } from "express";
 import multer from 'multer';
-import { subirVideo } from "../controllers/videos.controller.js";
+import { videoController } from "../controllers/videos.controller.js";
 import { verifyToken } from "../middlewares/auth.middlewares.js";
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -12,7 +12,7 @@ const videos = dirname(files);
 
 console.log('Iniciando router de videos');
 
-const uploadDir = join(videos, "../upload.js");
+const uploadDir = join(videos, "../videos");
 console.log('Ruta para guardar archivos: ' + uploadDir);
 
 const storage = multer.diskStorage({
@@ -41,31 +41,31 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({
   storage: storage,
-  fileFilter: fileFilter
+  fileFilter: fileFilter,
+  limits: { fileSize: 100 * 1024 * 1024 } // 100MB límite
 });
 
-// Ruta para subir video
-router.post("/", 
-  (req, res, next) => {
-    console.log('Llegó la request POST /video');
-    next();
-  },
-  verifyToken,
-  (req, res, next) => {
-    console.log('Token verificado');
-    next();
-  },
-  upload.single('file'),
-  (req, res, next) => {
-    console.log('Archivo procesado por Multer');
-    next();
-  },
-  subirVideo
-);
+// // Middleware para capturar errores de Multer y otros
+// router.use((err, req, res, next) => {
+//   console.error("Error en la ruta de video:", err.message);
 
-export default router;
+//   if (err instanceof multer.MulterError) {
+//     return res.status(400).json({ error: "Error de Multer: " + err.message });
+//   }
+
+//   if (err.message === "Tipo de archivo no permitido. Solo se aceptan mp4, avi, mov, mkv") {
+//     return res.status(400).json({ error: err.message });
+//   }
+
+//   return res.status(500).json({ error: "Error interno del servidor." });
+// });
+
+// Ruta para subir video
+router.post("/", verifyToken, upload.single('file'), videoController.subirVideo);
 
 router.get('/ping', (req, res) => {
   console.log('Llegó GET /video/ping');
   res.send('pong');
 });
+
+export default router;
