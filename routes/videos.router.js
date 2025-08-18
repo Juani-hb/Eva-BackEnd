@@ -45,23 +45,41 @@ const upload = multer({
   limits: { fileSize: 100 * 1024 * 1024 } // 100MB límite
 });
 
-// // Middleware para capturar errores de Multer y otros
-// router.use((err, req, res, next) => {
-//   console.error("Error en la ruta de video:", err.message);
+// Middleware para capturar errores de Multer y otros
+router.use((err, req, res, next) => {
+  console.error("Error en la ruta de video:", err.message);
 
-//   if (err instanceof multer.MulterError) {
-//     return res.status(400).json({ error: "Error de Multer: " + err.message });
-//   }
+  if (err instanceof multer.MulterError) {
+    return res.status(400).json({ error: "Error de Multer: " + err.message });
+  }
 
-//   if (err.message === "Tipo de archivo no permitido. Solo se aceptan mp4, avi, mov, mkv") {
-//     return res.status(400).json({ error: err.message });
-//   }
+  if (err.message === "Tipo de archivo no permitido. Solo se aceptan mp4, avi, mov, mkv") {
+    return res.status(400).json({ error: err.message });
+  }
 
-//   return res.status(500).json({ error: "Error interno del servidor." });
-// });
+  return res.status(500).json({ error: "Error interno del servidor." });
+});
 
-// Ruta para subir video
-router.post("/", verifyToken, upload.single('file'), videoController.subirVideo);
+// Nueva ruta para subir video con logs claros y middlewares en orden
+router.post(
+  '/',
+  (req, res, next) => {
+    console.log('--- INICIO POST /video ---');
+    next();
+  },
+  verifyToken,
+  (req, res, next) => {
+    console.log('--- PASÓ verifyToken ---');
+    next();
+  },
+  upload.single('file'),
+  (req, res, next) => {
+    console.log('--- PASÓ Multer ---');
+    console.log('req.file:', req.file);
+    next();
+  },
+  videoController.subirVideo
+);
 
 router.get('/ping', (req, res) => {
   console.log('Llegó GET /video/ping');

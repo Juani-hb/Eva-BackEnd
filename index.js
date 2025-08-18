@@ -9,10 +9,8 @@ const port = 3000;
 
 app.use(cors());
 
-// Solo para rutas que usan JSON
 app.use('/user', express.json(), userRoutes);
 
-// No uses express.json para /video (usa form-data)
 app.use('/video', video);
 
 app.listen(port, () => {
