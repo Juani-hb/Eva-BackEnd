@@ -4,7 +4,7 @@ import {
   obtenerUltimoMensajeService,
 } from "../services/mensaje.service.js";
 
-// (Opcional) whitelist de comandos
+
 const COMANDOS_VALIDOS = new Set([
   "abrir_puerta",
   "cerrar_puerta",
@@ -21,7 +21,7 @@ const COMANDOS_VALIDOS = new Set([
 export const crearMensaje = async (req, res) => {
   try {
     const { comando, hora } = req.body;
-    const idusuario = req.userId; // viene de tu verifyToken
+    const idusuario = req.userId; 
 
     if (!comando) {
       return res.status(400).json({ message: "Falta 'comando'." });
@@ -30,7 +30,6 @@ export const crearMensaje = async (req, res) => {
       return res.status(401).json({ message: "Token inválido o faltante." });
     }
 
-    // validar comando (opcional: quitá esto si aceptás cualquiera)
     if (!COMANDOS_VALIDOS.has(comando)) {
       return res.status(400).json({
         message: "Comando no permitido.",
@@ -38,7 +37,7 @@ export const crearMensaje = async (req, res) => {
       });
     }
 
-    // validar hora si vino
+   
     let horaDate = null;
     if (hora) {
       horaDate = new Date(hora);
@@ -57,7 +56,7 @@ export const crearMensaje = async (req, res) => {
 
 export const listarMensajes = async (req, res) => {
   try {
-    const idusuario = req.userId; // del token
+    const idusuario = req.userId; 
     const limit = Math.min(parseInt(req.query.limit ?? "20", 10), 200);
     const rows = await listarMensajesService({ idusuario, limit });
     return res.json(rows);
