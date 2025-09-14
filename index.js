@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import db from './db.js';
 import userRoutes from './routes/user.router.js';
-import video from './routes/videos.router.js';
+import video from './routes/imagen.router.js';
 
 const app = express();
 const port = 3000;
