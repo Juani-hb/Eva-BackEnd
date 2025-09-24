@@ -36,7 +36,7 @@ export const guardarDeteccion = async (req, res) => {
   }
 };
 
-// 👉 GET /deteccion  (lista paginada del usuario autenticado)
+
 export const listarDetecciones = async (req, res) => {
   try {
     if (!req.userId) return res.status(401).json({ message: "No autorizado." });
