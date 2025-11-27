@@ -1,20 +1,18 @@
-
 import { Router } from "express";
 import multer from "multer";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import fs from "fs";
 import { guardarDeteccion, listarDetecciones } from "../controllers/imagen.controller.js";
-import { verifyToken } from "../middlewares/auth.middlewares.js";
 
 const router = Router();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = dirname(__filename);
 
-
-const isProd = process.env.VERCEL === "1" || process.env.NODE_ENV === "production";
+const isProd   = process.env.VERCEL === "1" || process.env.NODE_ENV === "production";
 const uploadDir = isProd ? "/tmp" : join(__dirname, "../uploads");
+
 try { fs.mkdirSync(uploadDir, { recursive: true }); } catch {}
 
 const storage = multer.diskStorage({
@@ -33,10 +31,10 @@ const upload = multer({
   limits: { fileSize: 10 * 1024 * 1024 } // 10MB
 });
 
+// 🔹 Listar TODAS las detecciones (sin token)
+router.get("/", listarDetecciones);
 
-router.get("/", verifyToken, listarDetecciones);
-
-
-router.post("/", verifyToken, upload.single("imagen"), guardarDeteccion);
+// 🔹 Crear detección (IA o quien sea, sin token)
+router.post("/", upload.single("imagen"), guardarDeteccion);
 
 export default router;
